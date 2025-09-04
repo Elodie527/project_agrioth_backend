@@ -54,6 +54,7 @@ exports.requestOtp = async (req, res) => {
 
   try {
     const code = await otpService.generateOTP(phone, purpose);
+    console.log(`OTP pour ${phone} (${purpose}) : ${code}`); // <-- ici
     return res.json({ success: true, message: 'OTP envoyé', otp: code });
   } catch (error) {
     console.error('Erreur requestOtp:', error);

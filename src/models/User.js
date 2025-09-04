@@ -40,7 +40,8 @@ const UserSchema = new mongoose.Schema({
       return ret;
     }
   }
-});
+},
+);
 
 UserSchema.virtual('fullName').get(function() {
   return `${this.firstname} ${this.lastname}`;

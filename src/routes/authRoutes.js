@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const authMiddleware = require('../middleware/auth'); // Corrige le chemin
+const authMiddleware = require('../middleware/authenticate'); // Corrige le chemin
 
 // Routes d'authentification
 router.post('/check-phone', authController.checkPhone);

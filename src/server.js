@@ -7,6 +7,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
+const boxRoutes = require('./routes/boxRoutes');
 
 const app = express();
 
@@ -35,6 +36,8 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/boxes', boxRoutes);
+
 
 // Middleware de débogage des routes
 app.use((req, res, next) => {
