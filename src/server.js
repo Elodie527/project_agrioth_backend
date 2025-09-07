@@ -1,5 +1,5 @@
 require('dotenv').config({ path: __dirname + '/.env' });
-
+require('./scheduler/scheduler');
 console.log("[DEBUG] MONGODB_URI:", process.env.MONGODB_URI);
 console.log("[DEBUG] JWT_SECRET:", process.env.JWT_SECRET);
 
@@ -8,7 +8,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const boxRoutes = require('./routes/boxRoutes');
-//const irrigationRoutes = require('./routes/irrigationRoutes');
+const irrigationRoutes = require('./routes/irrigationRoutes');
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/boxes', boxRoutes);
-//app.use('/api', irrigationRoutes);
+app.use('/api', irrigationRoutes);
 
 
 app.use((req, res, next) => {
@@ -57,7 +57,7 @@ const routes = require('./routes');
 app.use('/api', routes);
 
 
-//require('./scheduler/scheduler');
+
 app.get("/", (request, response) => {
   response.statusCode = 200
   response.send({ message: "Mon premier JSON!" })
