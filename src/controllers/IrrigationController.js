@@ -40,7 +40,8 @@ const addIrrigation = async (req, res) => {
       box: boxId,
       date: scheduledAt,
       mode: mode || 'auto',
-      status: 'scheduled', // valeur par défaut utile si absente dans le schéma
+      //avant cetait scheduled
+      status: 'pending', // valeur par défaut utile si absente dans le schéma
     });
 
     await irrigation.save();
@@ -61,7 +62,13 @@ const getUserIrrigations = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Non authentifié' });
     }
 
-    const irrigations = await Irrigation.find({ user: req.userId })
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const irrigations = await Irrigation.find({
+      user: req.userId,
+      date: { $gte: oneMonthAgo }, // Irrigations datant au plus d’un mois
+    })
       .populate('box')
       .sort({ date: -1 });
 
@@ -71,6 +78,7 @@ const getUserIrrigations = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Erreur serveur' });
   }
 };
+
 
 /**
  * Marquer une irrigation comme terminée (utilitaire interne / scheduler)

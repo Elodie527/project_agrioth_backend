@@ -1,0 +1,41 @@
+const express = require('express');
+const router = express.Router();
+
+// Variable pour stocker les dernières données ESP32 (ajoute ceci)
+let lastSensorData = {};
+
+// Endpoint GET pour récupérer les données (NOUVEAU)
+router.get('/data', (req, res) => {
+  res.status(200).json({
+    temperature: lastSensorData.temperature || 0,
+    humidity: lastSensorData.humidity || 0,
+    sensor: lastSensorData.sensor || 'DHT11',
+    device_id: lastSensorData.device_id || 'ESP32_01',
+    timestamp: lastSensorData.timestamp || Date.now()
+  });
+});
+
+// Endpoint POST existant (MODIFIÉ pour stocker les données)
+router.post('/data', (req, res) => {
+  const { temperature, humidity, timestamp, sensor, device_id } = req.body;
+
+  console.log('Données reçues depuis ESP32 :');
+  console.log(`Température : ${temperature} °C`);
+  console.log(`Humidité : ${humidity} %`);
+  console.log(`Capteur : ${sensor}`);
+  console.log(`ID Appareil : ${device_id}`);
+  console.log(`Horodatage : ${timestamp}`);
+
+  // AJOUT : Stocker les données pour l'endpoint GET
+  lastSensorData = {
+    temperature,
+    humidity,
+    sensor,
+    device_id,
+    timestamp
+  };
+
+  res.status(200).json({ success: true, message: 'Données reçues avec succès' });
+});
+
+module.exports = router;

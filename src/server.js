@@ -38,7 +38,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/boxes', boxRoutes);
-app.use('/api', irrigationRoutes);
+//app.use('/api', irrigationRoutes);
+app.use('/api/irrigations', irrigationRoutes);
 
 
 app.use((req, res, next) => {
@@ -69,7 +70,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: 'Erreur serveur' });
 });
 
-
-app.listen(PORT, () => {
-  console.log(` Serveur en écoute sur http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Serveur en écoute sur http://0.0.0.0:${PORT}`);
 });
