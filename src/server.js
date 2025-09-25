@@ -1,5 +1,8 @@
 require('dotenv').config({ path: __dirname + '/.env' });
 require('./scheduler/scheduler');
+
+
+
 console.log("[DEBUG] MONGODB_URI:", process.env.MONGODB_URI);
 console.log("[DEBUG] JWT_SECRET:", process.env.JWT_SECRET);
 
